@@ -1,6 +1,6 @@
 <template>
   <main class="mt-10">
-    <div v-if="address && weatherData" class="space-y-10">
+    <div v-if="address && weatherData" class="space-y-12">
       <CardWeatherDayComponent
         :location="address"
         :temperature="weatherData.temp"
@@ -19,6 +19,7 @@
         :moonphase="weatherData.moonphase"
         :visibility="weatherData.visibility"
       />
+      <CardHourlyForecast :data="weatherData.hours" />
     </div>
   </main>
 </template>
@@ -30,6 +31,8 @@ import { convertMphToKmh } from '@/utils/convertMphToKmh'
 import { fahrenheitToCelsius } from '@/utils/fahrenheitToCelsius'
 import CardWeatherDayComponent from '@/components/CardWeatherDayComponent.vue'
 import CardWeatherSummary from '@/components/CardWeatherSummary.vue'
+import { getMoonPhaseText } from '@/utils/getMoonPhaseText'
+import CardHourlyForecast from '@/components/CardHourlyForecast.vue'
 
 const useCounter = useCounterStore()
 const { geolocation, getWeatherForLatitudeAndLongitude } = useCounter
@@ -44,12 +47,13 @@ const weatherData = ref({
   tempMin: '',
   humidity: 0,
   pressure: 0,
-  moonphase: 0,
+  moonphase: '',
   feelslike: '',
   visibility: 0,
   windSpeed: '',
   conditions: '',
-  description: ''
+  description: '',
+  hours: []
 })
 
 const temMaxMin = computed(() => {
@@ -75,20 +79,22 @@ async function success(position: GeolocationPosition) {
 async function getWeather(latitude: number, longitude: number) {
   try {
     const resultWeather = await getWeatherForLatitudeAndLongitude(latitude, longitude)
+    console.log(resultWeather)
     weatherData.value = {
       uv: resultWeather.currentConditions.uvindex,
       tempMax: fahrenheitToCelsius(resultWeather.days[0].tempmax),
       tempMin: fahrenheitToCelsius(resultWeather.days[0].tempmin),
       humidity: resultWeather.currentConditions.humidity,
       pressure: resultWeather.currentConditions.pressure,
-      moonphase: resultWeather.currentConditions.moonphase,
+      moonphase: getMoonPhaseText(resultWeather.currentConditions.moonphase),
       visibility: resultWeather.currentConditions.visibility,
       conditions: resultWeather.currentConditions.conditions,
       dew: fahrenheitToCelsius(resultWeather.currentConditions.dew),
       temp: fahrenheitToCelsius(resultWeather.currentConditions.temp),
       windSpeed: convertMphToKmh(resultWeather.currentConditions.windspeed),
       feelslike: fahrenheitToCelsius(resultWeather.currentConditions.feelslike),
-      description: resultWeather.description
+      description: resultWeather.description,
+      hours: resultWeather.days[0].hours
     }
   } catch (err) {
     console.error('Error fetching weather data:', err)

@@ -1,14 +1,11 @@
-import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 
 export const useCounterStore = defineStore('counter', () => {
-  const count = ref(0)
-  const doubleCount = computed(() => count.value * 2)
   async function geolocation(position: any) {
     const latitude = position.coords.latitude
     const longitude = position.coords.longitude
 
-    const apiKey = '12cafa40a27748b4b859d853d72dd9f2'
+    const apiKey = import.meta.env.VITE_API_KEY
     const url = `https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=${apiKey}`
 
     return fetch(url)
@@ -30,5 +27,5 @@ export const useCounterStore = defineStore('counter', () => {
       })
       .catch((error) => console.error('Error al obtener los datos del clima:', error))
   }
-  return { count, doubleCount, geolocation, getWeatherForLatitudeAndLongitude }
+  return { geolocation, getWeatherForLatitudeAndLongitude }
 })

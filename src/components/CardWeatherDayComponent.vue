@@ -27,8 +27,8 @@ import PartlyCloudyIcon from '@/components/icons/PartlyCloudyIcon.vue'
 
 defineProps<{
   location: string
-  temperature: string
   conditions: string
+  temperature: string
   description: string
 }>()
 </script>

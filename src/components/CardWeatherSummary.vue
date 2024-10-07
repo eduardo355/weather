@@ -88,7 +88,7 @@ defineProps<{
   address: string
   humidity: number
   pressure: number
-  moonphase: number
+  moonphase: string
   windSpeed: string
   feelslike: string
   visibility: number
