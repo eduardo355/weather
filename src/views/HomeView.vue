@@ -7,7 +7,7 @@
         :conditions="weatherData.conditions"
         :description="weatherData.description"
       />
-      <CardweatherSummaryComponent
+      <CardWeatherSummary
         :address="address"
         :uv="weatherData.uv"
         :dew="weatherData.dew"
@@ -29,7 +29,7 @@ import { useCounterStore } from '@/stores/actions'
 import { convertMphToKmh } from '@/utils/convertMphToKmh'
 import { fahrenheitToCelsius } from '@/utils/fahrenheitToCelsius'
 import CardWeatherDayComponent from '@/components/CardWeatherDayComponent.vue'
-import CardweatherSummaryComponent from '@/components/CardweatherSummaryComponent.vue'
+import CardWeatherSummary from '@/components/CardWeatherSummary.vue'
 
 const useCounter = useCounterStore()
 const { geolocation, getWeatherForLatitudeAndLongitude } = useCounter
