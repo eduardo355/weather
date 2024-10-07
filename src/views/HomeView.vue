@@ -68,8 +68,6 @@ async function success(position: GeolocationPosition) {
   if (latitude && longitude) {
     await getWeather(latitude, longitude)
     const locationResult = (await geolocation(position)) as location
-    console.log(locationResult)
-
     address.value = `${locationResult.country}, ${locationResult.state}`
   }
 }
