@@ -1,20 +1,19 @@
 import { defineStore } from 'pinia'
 
 export const useCounterStore = defineStore('counter', () => {
-  async function geolocation(position: any) {
+  async function geolocation(position: GeolocationPosition) {
     const latitude = position.coords.latitude
     const longitude = position.coords.longitude
-
-    const apiKey = import.meta.env.VITE_API_KEY
-    const url = `https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=${apiKey}`
-
-    return fetch(url)
+    return fetch('/api/geolocation', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ latitude, longitude })
+    })
       .then((response) => response.json())
       .then((data) => {
-        const components = data.results[0].components
-        const country = components.country
-        const state = components.state
-        return { country, state, latitude, longitude }
+        return data
       })
       .catch((error) => console.error('Error al obtener los datos de ubicación:', error))
   }
