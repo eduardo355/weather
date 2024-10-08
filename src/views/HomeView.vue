@@ -63,7 +63,8 @@ const temMaxMin = computed(() => {
 navigator.geolocation?.getCurrentPosition(success, error)
 
 type location = {
-  country: string
+  city: string
+  county: string
   state: string
 }
 
@@ -72,7 +73,8 @@ async function success(position: GeolocationPosition) {
   if (latitude && longitude) {
     await getWeather(latitude, longitude)
     const locationResult = (await geolocation(position)) as location
-    address.value = `${locationResult.country}, ${locationResult.state}`
+    console.log(locationResult)
+    address.value = `${locationResult.city}, ${locationResult.county}, ${locationResult.state}`
   }
 }
 
