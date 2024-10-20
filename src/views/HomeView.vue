@@ -65,9 +65,10 @@ const temMaxMin = computed(() => {
 navigator.geolocation?.getCurrentPosition(success, error)
 
 type location = {
+  road: string
   city: string
-  county: string
   state: string
+  county: string
 }
 
 async function success(position: GeolocationPosition) {
