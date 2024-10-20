@@ -16,16 +16,17 @@
             {{ description }}
           </p>
         </div>
-        <PartlyCloudyIcon />
+        <component :is="generateTemperatureIcon(icon)" class="h-60" />
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import PartlyCloudyIcon from '@/components/icons/PartlyCloudyIcon.vue'
+import { generateTemperatureIcon } from '@/utils/generateTemperatureIcon'
 
 defineProps<{
+  icon: string
   location: string
   conditions: string
   temperature: string
