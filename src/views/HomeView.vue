@@ -3,6 +3,7 @@
     <div v-if="address && weatherData" class="space-y-12">
       <CardWeatherDayComponent
         :location="address"
+        :icon="weatherData.icon"
         :temperature="weatherData.temp"
         :conditions="weatherData.conditions"
         :description="weatherData.description"
@@ -43,6 +44,7 @@ const weatherData = ref({
   uv: 0,
   dew: '',
   temp: '',
+  icon: '',
   tempMax: '',
   tempMin: '',
   humidity: 0,
@@ -73,8 +75,7 @@ async function success(position: GeolocationPosition) {
   if (latitude && longitude) {
     await getWeather(latitude, longitude)
     const locationResult = (await geolocation(position)) as location
-    console.log(locationResult)
-    address.value = `${locationResult.city}, ${locationResult.county}, ${locationResult.state}`
+    address.value = `${locationResult.city}, ${locationResult.road}, ${locationResult.state}`
   }
 }
 
@@ -83,20 +84,21 @@ async function getWeather(latitude: number, longitude: number) {
     const resultWeather = await getWeatherForLatitudeAndLongitude(latitude, longitude)
     console.log(resultWeather)
     weatherData.value = {
+      hours: resultWeather.days[0].hours,
+      description: resultWeather.description,
+      icon: resultWeather.currentConditions.icon,
       uv: resultWeather.currentConditions.uvindex,
-      tempMax: fahrenheitToCelsius(resultWeather.days[0].tempmax),
-      tempMin: fahrenheitToCelsius(resultWeather.days[0].tempmin),
       humidity: resultWeather.currentConditions.humidity,
       pressure: resultWeather.currentConditions.pressure,
-      moonphase: getMoonPhaseText(resultWeather.currentConditions.moonphase),
       visibility: resultWeather.currentConditions.visibility,
       conditions: resultWeather.currentConditions.conditions,
+      tempMax: fahrenheitToCelsius(resultWeather.days[0].tempmax),
+      tempMin: fahrenheitToCelsius(resultWeather.days[0].tempmin),
       dew: fahrenheitToCelsius(resultWeather.currentConditions.dew),
       temp: fahrenheitToCelsius(resultWeather.currentConditions.temp),
       windSpeed: convertMphToKmh(resultWeather.currentConditions.windspeed),
-      feelslike: fahrenheitToCelsius(resultWeather.currentConditions.feelslike),
-      description: resultWeather.description,
-      hours: resultWeather.days[0].hours
+      moonphase: getMoonPhaseText(resultWeather.currentConditions.moonphase),
+      feelslike: fahrenheitToCelsius(resultWeather.currentConditions.feelslike)
     }
   } catch (err) {
     console.error('Error fetching weather data:', err)
