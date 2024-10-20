@@ -3,7 +3,6 @@
     <div class="w-1/2 px-4 py-4">
       <h1 class="text-2xl font-semibold">Pronóstico por hora</h1>
 
-      <!-- Contenedor con animación -->
       <div :class="isExpanded && 'max-h-auto'" class="overflow-hidden">
         <div
           v-for="(hour, index) in visibleData"
@@ -14,7 +13,7 @@
           <span class="text-sky-500 text-4xl font-semibold">
             {{ fahrenheitToCelsius(hour.feelslike) }}°
           </span>
-          <span>{{ hour.icon }}</span>
+          <component :is="generateTemperatureIcon(hour.icon)" class="h-16" />
           <div class="flex items-center space-x-2">
             <RainIcon />
             <span>{{ hour.precipprob }}%</span>
@@ -36,6 +35,7 @@ import { computed, ref } from 'vue'
 import RainIcon from './icons/RainIcon.vue'
 import { formattedTime } from '@/utils/formattedTime'
 import { fahrenheitToCelsius } from '@/utils/fahrenheitToCelsius'
+import { generateTemperatureIcon } from '@/utils/generateTemperatureIcon'
 
 const isExpanded = ref(false)
 
@@ -49,9 +49,9 @@ const visibleData = computed(() => {
 
 const props = defineProps<{
   data: {
+    icon: string
     datetime: number
     feelslike: number
-    icon: string
     precipprob: number
   }[]
 }>()
