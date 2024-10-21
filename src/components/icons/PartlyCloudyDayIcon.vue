@@ -1,5 +1,5 @@
 <template>
-  <svg xmlns="http://www.w3.org/2000/svg" width="60px" height="60px" viewBox="0 0 512 512">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
     <defs>
       <symbol id="IconifyId192a8c1aabc8c0f6b3653" viewBox="0 0 196 196">
         <circle
