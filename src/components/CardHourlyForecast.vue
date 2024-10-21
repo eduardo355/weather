@@ -13,7 +13,7 @@
           <span class="text-sky-500 text-4xl font-semibold">
             {{ fahrenheitToCelsius(hour.feelslike) }}°
           </span>
-          <component :is="generateTemperatureIcon(hour.icon)" class="h-16" />
+          <component :is="generateTemperatureIcon(hour.icon)" class="h-20" />
           <div class="flex items-center space-x-2">
             <RainIcon />
             <span>{{ hour.precipprob }}%</span>
