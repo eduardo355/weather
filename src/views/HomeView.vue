@@ -29,11 +29,11 @@
 import { ref, computed } from 'vue'
 import { useCounterStore } from '@/stores/actions'
 import { convertMphToKmh } from '@/utils/convertMphToKmh'
-import { fahrenheitToCelsius } from '@/utils/fahrenheitToCelsius'
-import CardWeatherDayComponent from '@/components/CardWeatherDayComponent.vue'
-import CardWeatherSummary from '@/components/CardWeatherSummary.vue'
 import { getMoonPhaseText } from '@/utils/getMoonPhaseText'
+import { fahrenheitToCelsius } from '@/utils/fahrenheitToCelsius'
 import CardHourlyForecast from '@/components/CardHourlyForecast.vue'
+import CardWeatherSummary from '@/components/CardWeatherSummary.vue'
+import CardWeatherDayComponent from '@/components/CardWeatherDayComponent.vue'
 
 const useCounter = useCounterStore()
 const { geolocation, getWeatherForLatitudeAndLongitude } = useCounter
@@ -83,7 +83,6 @@ async function success(position: GeolocationPosition) {
 async function getWeather(latitude: number, longitude: number) {
   try {
     const resultWeather = await getWeatherForLatitudeAndLongitude(latitude, longitude)
-    console.log(resultWeather)
     weatherData.value = {
       hours: resultWeather.days[0].hours,
       description: resultWeather.description,
