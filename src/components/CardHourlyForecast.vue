@@ -1,7 +1,7 @@
 <template>
   <div class="flex justify-center items-center">
     <div class="w-1/2 px-4 py-4">
-      <h1 class="text-2xl font-semibold">Pronóstico por hora</h1>
+      <h2 class="text-2xl font-semibold">Pronóstico por hora</h2>
 
       <div :class="isExpanded && 'max-h-auto'" class="overflow-hidden">
         <div
@@ -15,7 +15,7 @@
           </span>
           <component :is="generateTemperatureIcon(hour.icon)" class="h-20" />
           <div class="flex items-center space-x-2">
-            <RainIcon />
+            <component :is="generateTemperatureIcon('rain')" class="h-20" />
             <span>{{ hour.precipprob }}%</span>
           </div>
         </div>
@@ -32,7 +32,6 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import RainIcon from './icons/RainIcon.vue'
 import { formattedTime } from '@/utils/formattedTime'
 import { fahrenheitToCelsius } from '@/utils/fahrenheitToCelsius'
 import { generateTemperatureIcon } from '@/utils/generateTemperatureIcon'
