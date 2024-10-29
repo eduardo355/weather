@@ -21,22 +21,24 @@
         :visibility="weatherData.visibility"
       />
       <CardHourlyForecast :data="weatherData.hours" />
+      <CardDaysForecast :data="weatherData.days" />
     </div>
   </main>
 </template>
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { useCounterStore } from '@/stores/actions'
+import { useActionsStore } from '@/stores/actions'
 import { convertMphToKmh } from '@/utils/convertMphToKmh'
 import { getMoonPhaseText } from '@/utils/getMoonPhaseText'
 import { fahrenheitToCelsius } from '@/utils/fahrenheitToCelsius'
 import CardHourlyForecast from '@/components/CardHourlyForecast.vue'
 import CardWeatherSummary from '@/components/CardWeatherSummary.vue'
 import CardWeatherDayComponent from '@/components/CardWeatherDayComponent.vue'
+import CardDaysForecast from '@/components/CardDaysForecast.vue'
 
-const useCounter = useCounterStore()
-const { geolocation, getWeatherForLatitudeAndLongitude } = useCounter
+const useActions = useActionsStore()
+const { geolocation, getWeatherForLatitudeAndLongitude } = useActions
 
 const address = ref('')
 
@@ -55,7 +57,8 @@ const weatherData = ref({
   windSpeed: '',
   conditions: '',
   description: '',
-  hours: []
+  hours: [],
+  days: []
 })
 
 const temMaxMin = computed(() => {
@@ -98,7 +101,8 @@ async function getWeather(latitude: number, longitude: number) {
       temp: fahrenheitToCelsius(resultWeather.currentConditions.temp),
       windSpeed: convertMphToKmh(resultWeather.currentConditions.windspeed),
       moonphase: getMoonPhaseText(resultWeather.currentConditions.moonphase),
-      feelslike: fahrenheitToCelsius(resultWeather.currentConditions.feelslike)
+      feelslike: fahrenheitToCelsius(resultWeather.currentConditions.feelslike),
+      days: resultWeather.days
     }
   } catch (err) {
     console.error('Error fetching weather data:', err)
