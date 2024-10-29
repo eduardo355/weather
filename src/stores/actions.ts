@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { URL } from '@/utils/ulrApi'
 
-export const useCounterStore = defineStore('counter', () => {
+export const useActionsStore = defineStore('actions', () => {
   const geolocation = async (position: GeolocationPosition) => {
     const latitude = position.coords.latitude
     const longitude = position.coords.longitude
