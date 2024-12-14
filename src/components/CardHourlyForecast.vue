@@ -1,21 +1,21 @@
 <template>
   <div class="flex justify-center items-center">
-    <div class="w-1/2 px-4 py-4">
+    <div class="lg:w-1/2 w-full px-4 py-4">
       <h2 class="text-2xl font-semibold">Pronóstico por hora</h2>
 
       <div :class="isExpanded && 'max-h-auto'" class="overflow-hidden">
         <div
           v-for="(hour, index) in visibleData"
           :key="index"
-          class="grid grid-cols-4 place-content-center place-items-center items-center py-2"
+          class="grid grid-cols-4 place-content-center place-items-center items-center md:py-2"
         >
           <span>{{ formattedTime(hour.datetime) }}</span>
-          <span class="text-sky-500 text-4xl font-semibold">
+          <span class="text-sky-500 md:text-4xl text-3xl font-semibold">
             {{ fahrenheitToCelsius(hour.feelslike) }}°
           </span>
           <component :is="generateTemperatureIcon(hour.icon)" class="h-20" />
           <div class="flex items-center space-x-2">
-            <component :is="generateTemperatureIcon('rain')" class="h-20" />
+            <component :is="generateTemperatureIcon('rain')" class="h-20 hidden md:block" />
             <span>{{ hour.precipprob }}%</span>
           </div>
         </div>

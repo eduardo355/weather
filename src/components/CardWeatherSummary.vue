@@ -1,12 +1,12 @@
 <template>
   <div class="flex justify-center items-center">
-    <div class="w-1/2 px-4 py-4">
+    <div class="lg:w-1/2 w-full px-4 py-4">
       <span class="text-2xl font-semibold">El tiempo en {{ address }} Hoy</span>
       <div class="mt-6 flex flex-col px-6">
-        <span class="text-xl">Sensacion termica</span>
+        <span class="md:text-xl text-lg">Sensacion termica</span>
         <span class="text-6xl font-semibold">{{ feelslike }}°</span>
       </div>
-      <div class="flex justify-evenly space-x-8">
+      <div class="flex justify-evenly space-x-8 text-sm md:text-base">
         <div class="w-full">
           <div class="border-b px-4 py-2 border-slate-300 flex justify-between">
             <div class="flex items-center space-x-2">
