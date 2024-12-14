@@ -1,6 +1,6 @@
 <template>
   <main class="mt-10">
-    <div v-if="address && weatherData" class="space-y-12">
+    <div v-if="address && weatherData && notGeolocation" class="space-y-12">
       <CardWeatherDayComponent
         :location="address"
         :icon="weatherData.icon"
@@ -23,6 +23,11 @@
       <CardHourlyForecast :data="weatherData.hours" />
       <CardDaysForecast :data="weatherData.days" />
     </div>
+    <div class="flex justify-center items-center w-full mt-80" v-else>
+      <h2 class="font-bold text-2xl text-center text-balance">
+        Debes de aceptar los permisos para acceder al clima de tu localidad. :(
+      </h2>
+    </div>
   </main>
 </template>
 
@@ -41,7 +46,7 @@ const useActions = useActionsStore()
 const { geolocation, getWeatherForLatitudeAndLongitude } = useActions
 
 const address = ref('')
-
+const notGeolocation = ref(true)
 const weatherData = ref({
   uv: 0,
   dew: '',
@@ -110,6 +115,6 @@ async function getWeather(latitude: number, longitude: number) {
 }
 
 function error() {
-  console.error('Failed to retrieve geolocation data.')
+  notGeolocation.value = false
 }
 </script>
