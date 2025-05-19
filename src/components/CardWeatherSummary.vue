@@ -1,70 +1,41 @@
 <template>
-  <div class="flex justify-center items-center">
-    <div class="lg:w-1/2 w-full px-4 py-4">
-      <span class="text-2xl font-semibold">El tiempo en {{ address }} Hoy</span>
-      <div class="mt-6 flex flex-col px-6">
-        <span class="md:text-xl text-lg">Sensacion termica</span>
-        <span class="text-6xl font-semibold">{{ feelslike }}°</span>
-      </div>
-      <div class="flex justify-evenly space-x-8 text-sm md:text-base">
-        <div class="w-full">
-          <div class="border-b px-4 py-2 border-slate-300 flex justify-between">
-            <div class="flex items-center space-x-2">
-              <TemperatureIcon />
-              <span> Max./Min. </span>
+  <div class="flex justify-center items-center py-8">
+    <div class="w-full lg:w-4/5 xl:w-2/3 px-4 space-y-4">
+      <h2 class="text-3xl font-bold text-center text-slate-800">El tiempo en {{ address }} hoy</h2>
+
+      <div class="bg-white shadow-md rounded-2xl p-6">
+        <div class="text-center mb-6">
+          <p class="text-lg text-slate-600">Sensación térmica</p>
+          <p class="text-6xl font-extrabold text-sky-700">{{ feelslike }}°</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div
+            v-for="(item, index) in firstColumn"
+            :key="index"
+            class="flex items-center justify-between border-b pb-2 last:border-b-0"
+          >
+            <div class="flex items-center space-x-2 text-slate-700">
+              <component :is="item.icon" class="w-5 h-5 text-sky-700" />
+              <span>{{ item.label }}</span>
             </div>
-            <span>{{ tempMaxMin }}</span>
-          </div>
-          <div class="border-b px-4 py-2 border-slate-300 flex justify-between">
-            <div class="flex items-center space-x-2">
-              <HumidityIcon />
-              <span>Humedad</span>
-            </div>
-            <span>{{ humidity }}%</span>
-          </div>
-          <div class="border-b px-4 py-2 border-slate-300 flex justify-between">
-            <div class="flex items-center space-x-2">
-              <PressureIcon />
-              <span>Presion</span>
-            </div>
-            <span>{{ pressure }} mb</span>
-          </div>
-          <div class="px-4 py-2 flex justify-between">
-            <div class="flex items-center space-x-2">
-              <VisibilityIcon />
-              <span>Visibilidad</span>
-            </div>
-            <span>{{ visibility }} km</span>
+            <span class="text-slate-800">{{ item.value }}</span>
           </div>
         </div>
-        <div class="w-full">
-          <div class="border-b px-4 py-2 border-slate-300 flex justify-between">
-            <div class="flex items-center space-x-2">
-              <WindIcon />
-              <span>Viento</span>
+      </div>
+
+      <div class="bg-white shadow-md rounded-2xl p-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div
+            v-for="(item, index) in secondColumn"
+            :key="index"
+            class="flex items-center justify-between border-b pb-2 last:border-b-0"
+          >
+            <div class="flex items-center space-x-2 text-slate-700">
+              <component :is="item.icon" class="w-5 h-5 text-purple-500" />
+              <span>{{ item.label }}</span>
             </div>
-            <span>{{ windSpeed }} Km/h</span>
-          </div>
-          <div class="border-b px-4 py-2 border-slate-300 flex justify-between">
-            <div class="flex items-center space-x-2">
-              <DropletIcon />
-              <span>Punto de rocio</span>
-            </div>
-            <span>{{ dew }}°</span>
-          </div>
-          <div class="border-b px-4 py-2 border-slate-300 flex justify-between">
-            <div class="flex items-center space-x-2">
-              <UvIcon />
-              <span>Indice UV</span>
-            </div>
-            <span>{{ uv }} de 11</span>
-          </div>
-          <div class="px-4 py-2 flex justify-between">
-            <div class="flex items-center space-x-2">
-              <WaxingIcon />
-              <span>Fase lunar</span>
-            </div>
-            <span>{{ moonphase }}</span>
+            <span class="text-slate-800">{{ item.value }}</span>
           </div>
         </div>
       </div>
@@ -73,16 +44,16 @@
 </template>
 
 <script setup lang="ts">
-import UvIcon from './icons/UvIcon.vue'
-import WindIcon from './icons/WindIcon.vue'
-import WaxingIcon from './icons/WaxingIcon.vue'
-import DropletIcon from './icons/DropletIcon.vue'
-import HumidityIcon from './icons/HumidityIcon.vue'
-import PressureIcon from './icons/PressureIcon.vue'
-import VisibilityIcon from './icons/VisibilityIcon.vue'
 import TemperatureIcon from './icons/TemperatureIcon.vue'
+import VisibilityIcon from './icons/VisibilityIcon.vue'
+import PressureIcon from './icons/PressureIcon.vue'
+import HumidityIcon from './icons/HumidityIcon.vue'
+import DropletIcon from './icons/DropletIcon.vue'
+import WaxingIcon from './icons/WaxingIcon.vue'
+import WindIcon from './icons/WindIcon.vue'
+import UvIcon from './icons/UvIcon.vue'
 
-defineProps<{
+const props = defineProps<{
   uv: number
   dew: string
   address: string
@@ -94,4 +65,18 @@ defineProps<{
   visibility: number
   tempMaxMin: string
 }>()
+
+const firstColumn = [
+  { icon: TemperatureIcon, label: 'Max./Min.', value: props.tempMaxMin },
+  { icon: HumidityIcon, label: 'Humedad', value: `${props.humidity}%` },
+  { icon: PressureIcon, label: 'Presión', value: `${props.pressure} mb` },
+  { icon: VisibilityIcon, label: 'Visibilidad', value: `${props.visibility} km` }
+]
+
+const secondColumn = [
+  { icon: WindIcon, label: 'Viento', value: `${props.windSpeed} km/h` },
+  { icon: DropletIcon, label: 'Punto de rocío', value: `${props.dew}°` },
+  { icon: UvIcon, label: 'Índice UV', value: `${props.uv} de 11` },
+  { icon: WaxingIcon, label: 'Fase lunar', value: props.moonphase }
+]
 </script>
