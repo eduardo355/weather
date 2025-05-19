@@ -1,22 +1,25 @@
 <template>
-  <div class="flex justify-center items-center text-white">
-    <div class="lg:w-1/2 w-full px-2">
+  <div class="flex justify-center text-white">
+    <div class="w-full lg:w-4/5 xl:w-2/3 px-4">
       <div
-        class="bg-gradient-to-r from-sky-900 from-50% via-sky-700 via-90% w-full px-4 py-4 rounded-t-md"
+        class="bg-gradient-to-r from-sky-900 via-sky-800 to-sky-700 px-6 py-5 rounded-t-2xl shadow-md"
       >
-        <span class="text-xl font-semibold">{{ location }}</span>
+        <span class="text-2xl font-semibold tracking-wide">{{ location }}</span>
       </div>
+
       <div
-        class="bg-gradient-to-r from-sky-400 from-50% via-sky-500 via-90% w-full px-10 py-8 flex items-center justify-between rounded-b-md"
+        class="bg-gradient-to-r from-sky-500 via-sky-400 to-sky-300 px-6 py-8 flex flex-col md:flex-row items-center justify-between gap-6 rounded-b-2xl shadow-lg"
       >
-        <div class="flex flex-col font-semibold">
-          <span class="md:text-9xl text-8xl">{{ temperature }}°</span>
-          <span class="md:text-2xl text-xl">{{ conditions }}</span>
-          <p class="md:text-lg mt-4">
+        <div class="text-center md:text-left flex flex-col font-medium">
+          <span class="text-7xl md:text-9xl font-bold leading-tight drop-shadow"
+            >{{ temperature }}°</span
+          >
+          <span class="text-2xl md:text-3xl mt-2 capitalize">{{ conditions }}</span>
+          <p class="text-base md:text-lg mt-4 leading-relaxed max-w-md">
             {{ description }}
           </p>
         </div>
-        <component :is="generateTemperatureIcon(icon)" class="h-60" />
+        <component :is="generateTemperatureIcon(icon)" class="h-52 md:h-60 drop-shadow-xl" />
       </div>
     </div>
   </div>
